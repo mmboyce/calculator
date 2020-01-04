@@ -21,14 +21,17 @@ body {
     box-shadow: 0.25em 0.25em 0.10em #000000c7;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     align-self: center;
-    height: 23em;
-    width: 13em;
+    height: 30em;
+    width: 18em;
 }
 
 #display {
     grid-column-start: 1;
     grid-column-end: 4;
     grid-row-start: 1;
+    width: 90%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3em;
 }
 
 #func-bksp {
@@ -61,7 +64,6 @@ body {
 }
 
 #func-equal {
-    color: black;
     grid-row-start: 5;
     grid-row-end: 7;
     grid-column-start: 4;
@@ -74,17 +76,32 @@ body {
 
 
 .num {
-    color: firebrick;
+    color: #af6060;
+}
+
+.num:hover {
+    color: #ca4646;
+    font-weight: bold;
 }
 
 .func {
-    color: slateblue;
+    color: #cdbc5a;
+}
+
+.func:hover {
+    color: #ece2a4;
+    font-weight: bold;
 }
 
 li {
     list-style-type: none;
     padding: 0.5em;
-    background-color: whitesmoke;
+    background-color: #535151;
+    border-radius: 0.5em;
+}
+
+li:hover {
+    background: #949292;    
 }
 
 #credit {
@@ -102,4 +119,8 @@ li {
 
 #credit a:hover {
     color: firebrick;
+}
+
+#func-equal, #func-bksp, #func-dec {
+    color: white;
 }
