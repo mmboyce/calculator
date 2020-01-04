@@ -6,7 +6,7 @@ const equals = document.querySelector("#func-equal")
 
 let equation = ""
 
-const testVal = "10 / 2 + 15 - 30 + 10 * 2"
+const divideByZeroMsg = " YOU CAN'T DIVIDE BY ZERO >:[ "
 
 const add = (x, y) => +x + +y
 
@@ -47,15 +47,25 @@ const updateEquation = () => {
 
 
 const stripEquationSpaces = () => {
+    if(getDisplayValue() === divideByZeroMsg){
+        return
+    }
+
     equation = equation.split(" ").join('')
 }
 
 const addToDisplay = toAdd => {
-    display.value += toAdd
+    if (getDisplayValue() === divideByZeroMsg){
+        setDisplayValue("")
+    }
+
+    if(getDisplayValue().charAt)
+
+    setDisplayValue(getDisplayValue() + toAdd)
 }
 
 const addOperatorToDisplay = func => {
-    let lastChar = display.value.charAt(display.value.length - 1)
+    let lastChar = getDisplayValue().charAt(getDisplayValue().length - 1)
     if (lastChar === " " || lastChar === "") {
         // we don't want to be able operators to the end
         // of the display.
@@ -90,6 +100,11 @@ const calculate = () => {
         } else if (match.includes('/')) {
             let dividend = match.split("/")[0]
             let divisor = match.split("/")[1]
+
+            if(divisor == 0){
+                setDisplayValue(divideByZeroMsg)
+                return
+            }
 
             let quotient = operate('/', dividend, divisor)
 
