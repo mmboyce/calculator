@@ -100,7 +100,17 @@ const calculate = () => {
     // Itearte for addition or subtraction with regex
     //   replace equation with solution
     while (equation.includes('+') || equation.includes('-')) {
-        let match = equation.match(addSubReg)[0]
+        let match = equation.match(addSubReg)
+
+        if(match === null){
+            // This occurrs when our final solution is a negative number,
+            // so we can just exit the loop
+            break
+        } else {
+            // if match isn't null, then it is an array of length 1 that contains
+            // an equation we need to solve.
+            match = match[0]
+        }
 
         if (match.includes("+")) {
             let firstAdd = match.split("+")[0]
