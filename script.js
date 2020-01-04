@@ -4,6 +4,7 @@ const funcs = document.querySelectorAll('.func')
 const clear = document.querySelector("#func-clear")
 const equals = document.querySelector("#func-equal")
 const decimal = document.querySelector("#func-dec")
+const bksp = document.querySelector("#func-bksp")
 
 let equation = ""
 
@@ -61,7 +62,7 @@ const getCurrentNumber = () => {
     const displayValue = getDisplayValue()
 
     const nums = displayValue.match(numReg)
-    
+
     return nums[nums.length - 1]
 }
 
@@ -69,7 +70,7 @@ const currentNumberContainsDecimal = () => {
     return getCurrentNumber().includes('.')
 }
 
-const getLastDisplayCharacter = () => 
+const getLastDisplayCharacter = () =>
     (getDisplayValue().charAt(getDisplayValue().length - 1))
 
 const addToDisplay = toAdd => {
@@ -79,14 +80,14 @@ const addToDisplay = toAdd => {
         setDisplayValue("")
     }
 
-    if (toAdd == "."){
-        if(lastChar == toAdd){
+    if (toAdd == ".") {
+        if (lastChar == toAdd) {
             // we don't want repeated decimals
             return
-        } else if (lastChar == " " || lastChar == ""){
+        } else if (lastChar == " " || lastChar == "") {
             // Pressing the decimal before a number inserts a 0 before decimal
             toAdd = "0."
-        } else if (currentNumberContainsDecimal()){
+        } else if (currentNumberContainsDecimal()) {
             // We don't want repeated decimals in our numbers
             return
         }
@@ -106,14 +107,36 @@ const addOperatorToDisplay = func => {
     addToDisplay(" " + func + " ")
 }
 
+const backspace = () => {
+    let displayValue = ""
+    let charsToRemove = 1
+    let length = getDisplayValue().length
+
+    if (getLastDisplayCharacter() == " ") {
+        // then we have an operator that we must remove
+        // since operators have spaces on either side, we must remove 3 chars
+        charsToRemove = 3
+    }
+
+    displayValue = getDisplayValue().substring(0, length - charsToRemove)
+
+    display.value = displayValue
+}
+
 const calculate = () => {
     updateEquation()
-    stripEquationSpaces()
 
     // Regular Expression to find multiplication or division
     const multDivReg = /-*[\d\.]+[/\*]-*[\d\.]+/
     // Regular Expression to find addition or subtraction
     const addSubReg = /-*[\d\.]+[-\+]-*[\d\.]+/
+
+    if (getLastDisplayCharacter() == " ") {
+        // then our last input was an operator so no math can be done yet
+        return
+    }
+
+    stripEquationSpaces()
 
     // Iterate for multiplaction or division with regex
     //   replace equation with solution
@@ -187,6 +210,18 @@ const calculate = () => {
     // 55
 
     setDisplayValue(equation)
+
+    if (currentNumberContainsDecimal()) {
+        // We want to trim overly long decimals
+        let firstHalf = getCurrentNumber().split('.')[0]
+        let secondHalf = getCurrentNumber().split('.')[1]
+
+        if (secondHalf.length > 3) {
+            secondHalf = secondHalf.substring(0, 3)
+            let truncated = [firstHalf, secondHalf].join('.')
+            setDisplayValue(truncated)
+        }
+    }
 }
 
 
@@ -205,12 +240,11 @@ clear.addEventListener("click", () => {
 
 // function buttons add to display (except equals)
 funcs.forEach(func => {
-    if (func.id != "func-equal" && func.id != "func-dec") {
-        let funcID = func.innerText
-        func.addEventListener("click", () => {
-            addOperatorToDisplay(funcID)
-        })
-    }
+    let funcID = func.innerText
+    func.addEventListener("click", () => {
+        addOperatorToDisplay(funcID)
+    })
+
 })
 
 // add equals button functionality
@@ -222,4 +256,9 @@ equals.addEventListener("click", () => {
 decimal.addEventListener("click", () => {
     let dec = decimal.innerText
     addToDisplay(dec)
+})
+
+// add backspace button functionality
+bksp.addEventListener("click", () => {
+    backspace()
 })

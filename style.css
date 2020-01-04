@@ -8,35 +8,63 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding-top: 13%;
+    padding-top: 10%;
 }
 
 #calculator {
     display: grid;
     margin: 0 auto;
     grid-gap: 0.25em;
-    background-color: grey;
+    background-color: #1b1b1b;
     padding: 0.5em;
     border-radius: 0.5em;
     box-shadow: 0.25em 0.25em 0.10em #000000c7;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     align-self: center;
+    height: 23em;
+    width: 13em;
 }
 
 #display {
     grid-column-start: 1;
-    grid-column-end: 3;
+    grid-column-end: 4;
     grid-row-start: 1;
+}
+
+#func-bksp {
+    grid-row-start: 2
 }
 
 #func-clear {
     color: orange;
     grid-row-start: 1;
-    grid-column-start: 3;
+    grid-column-start: 4;
 }
 
 #func-div {
-    grid-row-start: 1;
+    grid-row-start: 2;
+    grid-column-start: 2;
+}
+
+#func-mul {
+    grid-row-start: 2;
+}
+
+#func-sub {
+    grid-row-start: 2;
+}
+
+#func-add {
+    grid-row-start: 3;
+    grid-row-end: 5;
+    grid-column-start: 4;
+}
+
+#func-equal {
+    color: black;
+    grid-row-start: 5;
+    grid-row-end: 7;
+    grid-column-start: 4;
 }
 
 #num-0 {
@@ -44,9 +72,6 @@ body {
     grid-column-end: 3;
 }
 
-#func-equal {
-    color: black;
-}
 
 .num {
     color: firebrick;
